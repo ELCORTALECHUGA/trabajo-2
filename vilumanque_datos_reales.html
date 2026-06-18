@@ -1,0 +1,243 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+.app{font-family:var(--font-sans);}
+.header{background:#1C3A2A;border-radius:14px;padding:1.25rem 1.5rem;margin-bottom:1rem;position:relative;overflow:hidden;}
+.htrees{position:absolute;bottom:0;right:16px;opacity:0.12;}
+.hc{position:relative;z-index:1;}
+.htop{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.75rem;}
+.hpill{background:#D4A843;color:#1C3A2A;font-size:11px;font-weight:500;padding:4px 10px;border-radius:20px;display:inline-flex;align-items:center;gap:5px;}
+.htitle{font-size:18px;font-weight:500;color:#fff;line-height:1.25;margin-bottom:3px;}
+.hsub{font-size:11px;color:rgba(255,255,255,0.45);}
+.hstats{display:flex;gap:20px;margin-top:.875rem;padding-top:.875rem;border-top:0.5px solid rgba(255,255,255,0.1);}
+.hstat .v{font-size:17px;font-weight:500;color:#D4A843;}
+.hstat .l{font-size:11px;color:rgba(255,255,255,0.4);margin-top:1px;}
+.pulse{display:inline-block;width:7px;height:7px;border-radius:50%;background:#4A8C5C;margin-left:4px;vertical-align:middle;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.3;}}
+
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:14px;padding:1.25rem;margin-bottom:.875rem;}
+.card-green{border-left:3px solid #2D5A3D;border-radius:0 14px 14px 0;border-top:0.5px solid var(--color-border-tertiary);border-right:0.5px solid var(--color-border-tertiary);border-bottom:0.5px solid var(--color-border-tertiary);}
+.sec{font-size:11px;font-weight:500;color:#2D5A3D;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.sec::after{content:'';flex:1;height:0.5px;background:#4A8C5C;opacity:0.3;}
+
+.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:1rem;}
+.mc{border-radius:10px;padding:.875rem 1rem;border:0.5px solid var(--color-border-tertiary);}
+.mc-temp{background:#FEF3E8;border-color:#F5C085;}
+.mc-hum{background:#E8F4F7;border-color:#85C4D4;}
+.mc-viento{background:#EFF7EC;border-color:#85C485;}
+.mc-score{background:#1C3A2A;border-color:#1C3A2A;}
+.mc-lbl{font-size:11px;margin-bottom:4px;display:flex;align-items:center;gap:4px;}
+.mc-lbl.t{color:#A85A10;}.mc-lbl.h{color:#1A6A85;}.mc-lbl.v{color:#1A6A30;}.mc-lbl.s{color:rgba(255,255,255,0.55);}
+.mc-val{font-size:22px;font-weight:500;}
+.mc-val.t{color:#C85A1A;}.mc-val.h{color:#1A6A85;}.mc-val.v{color:#1A6A30;}.mc-val.s{color:#D4A843;}
+.mc-unit{font-size:12px;opacity:0.6;}
+
+.rbadge{display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:20px;font-size:13px;font-weight:500;margin-bottom:1rem;}
+.rdot{width:9px;height:9px;border-radius:50%;}
+.bajo{background:#EAF3DE;color:#27500A;}.bajo .rdot{background:#639922;}
+.moderado{background:#FAEEDA;color:#633806;}.moderado .rdot{background:#BA7517;}
+.alto{background:#FAECE7;color:#712B13;}.alto .rdot{background:#D85A30;}
+.extremo{background:#FCEBEB;color:#791F1F;}.extremo .rdot{background:#E24B4A;}
+
+.crow{display:flex;align-items:center;gap:10px;margin-bottom:7px;font-size:13px;color:var(--color-text-secondary);}
+.cchk{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;}
+.cchk.ok{background:#FCEBEB;color:#A32D2D;}
+.cchk.no{background:#EAF3DE;color:#3B6D11;}
+
+.chart-wrap{position:relative;width:100%;height:200px;}
+.legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px;}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--color-text-secondary);}
+.leg-sq{width:10px;height:10px;border-radius:2px;}
+
+.upd{font-size:11px;color:var(--color-text-tertiary);margin-top:8px;}
+.footer{display:flex;align-items:center;justify-content:center;gap:8px;padding:.75rem 0;border-top:0.5px solid var(--color-border-tertiary);margin-top:.5rem;}
+.footer-text{font-size:11px;color:var(--color-text-tertiary);}
+.footer-leaf{color:#4A8C5C;font-size:14px;}
+
+.loading-state{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--color-text-secondary);padding:1rem 0;}
+.spin{animation:spin 1s linear infinite;display:inline-block;}
+@keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}};
+
+.extra-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:1rem;}
+.emc{border-radius:10px;padding:.875rem 1rem;border:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary);}
+.emc-lbl{font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;display:flex;align-items:center;gap:4px;}
+.emc-val{font-size:18px;font-weight:500;color:var(--color-text-primary);}
+.emc-unit{font-size:11px;color:var(--color-text-secondary);}
+</style>
+
+<div class="app">
+<div class="header">
+  <svg class="htrees" width="160" height="90" viewBox="0 0 160 90">
+    <polygon points="30,8 44,45 16,45" fill="#fff"/>
+    <polygon points="30,22 46,55 14,55" fill="#fff"/>
+    <rect x="27" y="55" width="6" height="14" fill="#fff"/>
+    <polygon points="80,4 96,45 64,45" fill="#fff"/>
+    <polygon points="80,20 100,58 60,58" fill="#fff"/>
+    <rect x="76" y="58" width="8" height="16" fill="#fff"/>
+    <polygon points="135,12 147,44 123,44" fill="#fff"/>
+    <polygon points="135,24 149,54 121,54" fill="#fff"/>
+    <rect x="132" y="54" width="6" height="13" fill="#fff"/>
+  </svg>
+  <div class="hc">
+    <div class="htop">
+      <div class="hpill"><i class="ti ti-leaf" aria-hidden="true"></i> Vilumanque · Concepción</div>
+      <span class="pulse"></span>
+    </div>
+    <div style="margin-top:.75rem;">
+      <div class="htitle">Monitoreo ambiental<br>en tiempo real</div>
+      <div class="hsub">Datos reales · Open-Meteo API · Actualización automática</div>
+    </div>
+    <div class="hstats">
+      <div class="hstat"><div class="v" id="h-riesgo">—</div><div class="l">Nivel actual</div></div>
+      <div class="hstat"><div class="v" id="h-hora">—</div><div class="l">Última actualización</div></div>
+      <div class="hstat"><div class="v">5 min</div><div class="l">Intervalo refresco</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="card card-green">
+  <div class="sec"><i class="ti ti-map-pin" aria-hidden="true"></i> Estado actual del sector</div>
+  <div id="loading" class="loading-state"><i class="ti ti-refresh spin" aria-hidden="true"></i> Obteniendo datos meteorológicos...</div>
+  <div id="main-content" style="display:none;">
+    <div id="rbadge" class="rbadge bajo"><span class="rdot"></span><span id="rnivel">Riesgo bajo</span></div>
+    <div class="mgrid">
+      <div class="mc mc-temp"><div class="mc-lbl t"><i class="ti ti-temperature" aria-hidden="true"></i> Temperatura</div><div class="mc-val t" id="val-temp">—<span class="mc-unit">°C</span></div></div>
+      <div class="mc mc-hum"><div class="mc-lbl h"><i class="ti ti-droplet" aria-hidden="true"></i> Humedad</div><div class="mc-val h" id="val-hum">—<span class="mc-unit">%</span></div></div>
+      <div class="mc mc-viento"><div class="mc-lbl v"><i class="ti ti-wind" aria-hidden="true"></i> Viento</div><div class="mc-val v" id="val-viento">—<span class="mc-unit">km/h</span></div></div>
+      <div class="mc mc-score"><div class="mc-lbl s"><i class="ti ti-flame" aria-hidden="true"></i> Puntaje 30-30-30</div><div class="mc-val s" id="val-score">—<span class="mc-unit">/3</span></div></div>
+    </div>
+    <div class="sec"><i class="ti ti-list-check" aria-hidden="true"></i> Condiciones activas</div>
+    <div id="ct" class="crow"><span class="cchk no"><i class="ti ti-check"></i></span><span>Temperatura &gt; 30°C</span></div>
+    <div id="ch" class="crow"><span class="cchk no"><i class="ti ti-check"></i></span><span>Humedad &lt; 30%</span></div>
+    <div id="cv" class="crow"><span class="cchk no"><i class="ti ti-check"></i></span><span>Viento &gt; 30 km/h</span></div>
+  </div>
+</div>
+
+<div class="card card-green">
+  <div class="sec"><i class="ti ti-sun" aria-hidden="true"></i> Datos adicionales</div>
+  <div id="loading2" class="loading-state"><i class="ti ti-refresh spin" aria-hidden="true"></i> Cargando...</div>
+  <div id="extra-content" style="display:none;">
+    <div class="extra-grid">
+      <div class="emc"><div class="emc-lbl"><i class="ti ti-temperature-minus" aria-hidden="true"></i> Sensación térmica</div><div class="emc-val" id="val-feels">—<span class="emc-unit">°C</span></div></div>
+      <div class="emc"><div class="emc-lbl"><i class="ti ti-cloud-rain" aria-hidden="true"></i> Precipitaciones</div><div class="emc-val" id="val-rain">—<span class="emc-unit">mm</span></div></div>
+      <div class="emc"><div class="emc-lbl"><i class="ti ti-eye" aria-hidden="true"></i> Nubosidad</div><div class="emc-val" id="val-cloud">—<span class="emc-unit">%</span></div></div>
+      <div class="emc"><div class="emc-lbl"><i class="ti ti-compass" aria-hidden="true"></i> Dirección viento</div><div class="emc-val" id="val-wdir">—<span class="emc-unit">°</span></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="card card-green">
+  <div class="sec"><i class="ti ti-chart-line" aria-hidden="true"></i> Historial hoy — últimas horas</div>
+  <div class="legend">
+    <div class="leg-item"><div class="leg-sq" style="background:#E24B4A;"></div>Temperatura (°C)</div>
+    <div class="leg-item"><div class="leg-sq" style="background:#378ADD;"></div>Humedad (%)</div>
+    <div class="leg-item"><div class="leg-sq" style="background:#1D9E75;"></div>Viento (km/h)</div>
+  </div>
+  <div class="chart-wrap"><canvas id="histChart" role="img" aria-label="Historial de variables ambientales">Cargando datos históricos...</canvas></div>
+</div>
+
+<div class="footer">
+  <i class="ti ti-leaf footer-leaf" aria-hidden="true"></i>
+  <span class="footer-text">Datos en tiempo real · Open-Meteo API · Vilumanque, Concepción · <span id="source-coords">-36.82°S, -73.05°O</span></span>
+  <i class="ti ti-tree footer-leaf" aria-hidden="true"></i>
+</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const LAT = -36.8201;
+const LON = -73.0444;
+let histChartInst = null;
+
+function getRLbl(s){return['Riesgo bajo','Riesgo moderado','Riesgo alto','Riesgo extremo'][s]||'Riesgo bajo';}
+function getRCls(s){return['bajo','moderado','alto','extremo'][s]||'bajo';}
+function getHLabel(s){return['Bajo','Moderado','Alto','Extremo'][s]||'Bajo';}
+
+function getDirLabel(deg){
+  const dirs=['N','NE','E','SE','S','SO','O','NO'];
+  return dirs[Math.round(deg/45)%8];
+}
+
+function setCondCheck(id, active){
+  const el=document.getElementById(id);
+  el.querySelector('.cchk').className='cchk '+(active?'ok':'no');
+}
+
+async function fetchData(){
+  try{
+    const url=`https://api.open-meteo.com/v1/forecast?latitude=${LAT}&longitude=${LON}&current=temperature_2m,relative_humidity_2m,apparent_temperature,wind_speed_10m,wind_direction_10m,cloud_cover,precipitation&hourly=temperature_2m,relative_humidity_2m,wind_speed_10m&timezone=America%2FSantiago&forecast_days=1`;
+    const res=await fetch(url);
+    const data=await res.json();
+    const c=data.current;
+
+    const temp=Math.round(c.temperature_2m);
+    const hum=Math.round(c.relative_humidity_2m);
+    const viento=Math.round(c.wind_speed_10m);
+    const feels=Math.round(c.apparent_temperature);
+    const rain=(c.precipitation||0).toFixed(1);
+    const cloud=Math.round(c.cloud_cover);
+    const wdir=Math.round(c.wind_direction_10m);
+    const score=(temp>30?1:0)+(hum<30?1:0)+(viento>30?1:0);
+
+    document.getElementById('val-temp').innerHTML=temp+'<span class="mc-unit">°C</span>';
+    document.getElementById('val-hum').innerHTML=hum+'<span class="mc-unit">%</span>';
+    document.getElementById('val-viento').innerHTML=viento+'<span class="mc-unit">km/h</span>';
+    document.getElementById('val-score').innerHTML=score+'<span class="mc-unit">/3</span>';
+    document.getElementById('val-feels').innerHTML=feels+'<span class="emc-unit">°C</span>';
+    document.getElementById('val-rain').innerHTML=rain+'<span class="emc-unit">mm</span>';
+    document.getElementById('val-cloud').innerHTML=cloud+'<span class="emc-unit">%</span>';
+    document.getElementById('val-wdir').innerHTML=wdir+'° <span class="emc-unit">'+getDirLabel(wdir)+'</span>';
+
+    const cls=getRCls(score);
+    const badge=document.getElementById('rbadge');
+    badge.className='rbadge '+cls;
+    document.getElementById('rnivel').textContent=getRLbl(score);
+    document.getElementById('h-riesgo').textContent=getHLabel(score);
+
+    setCondCheck('ct',temp>30);
+    setCondCheck('ch',hum<30);
+    setCondCheck('cv',viento>30);
+
+    const now=new Date();
+    document.getElementById('h-hora').textContent=now.toLocaleTimeString('es-CL',{hour:'2-digit',minute:'2-digit'});
+
+    document.getElementById('loading').style.display='none';
+    document.getElementById('main-content').style.display='block';
+    document.getElementById('loading2').style.display='none';
+    document.getElementById('extra-content').style.display='block';
+
+    const hourly=data.hourly;
+    const nowHour=now.getHours();
+    const start=Math.max(0,nowHour-11);
+    const end=nowHour+1;
+    const labels=hourly.time.slice(start,end).map(t=>t.split('T')[1].slice(0,5));
+    const tData=hourly.temperature_2m.slice(start,end).map(v=>Math.round(v));
+    const hData=hourly.relative_humidity_2m.slice(start,end).map(v=>Math.round(v));
+    const wData=hourly.wind_speed_10m.slice(start,end).map(v=>Math.round(v));
+
+    if(histChartInst){
+      histChartInst.data.labels=labels;
+      histChartInst.data.datasets[0].data=tData;
+      histChartInst.data.datasets[1].data=hData;
+      histChartInst.data.datasets[2].data=wData;
+      histChartInst.update();
+    } else {
+      histChartInst=new Chart(document.getElementById('histChart'),{
+        type:'line',
+        data:{labels,datasets:[
+          {label:'Temp',data:tData,borderColor:'#E24B4A',backgroundColor:'transparent',tension:0.4,pointRadius:2,pointBackgroundColor:'#E24B4A'},
+          {label:'Humedad',data:hData,borderColor:'#378ADD',backgroundColor:'transparent',tension:0.4,pointRadius:2,pointBackgroundColor:'#378ADD',borderDash:[5,4]},
+          {label:'Viento',data:wData,borderColor:'#1D9E75',backgroundColor:'transparent',tension:0.4,pointRadius:2,pointBackgroundColor:'#1D9E75',borderDash:[2,3]}
+        ]},
+        options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{maxTicksLimit:8}}}}
+      });
+    }
+
+  } catch(e){
+    document.getElementById('loading').innerHTML='<i class="ti ti-alert-triangle" aria-hidden="true"></i> Error al obtener datos. Reintentando...';
+  }
+}
+
+fetchData();
+setInterval(fetchData, 5*60*1000);
+</script>
